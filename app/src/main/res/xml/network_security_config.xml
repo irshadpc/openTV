@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Allows cleartext (HTTP) traffic, which some HLS/embedded stream CDNs still
+     use, while the app itself loads only over HTTPS. WebView mixed-content mode
+     is set to COMPATIBILITY in code so an HTTPS page can pull HTTP streams. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

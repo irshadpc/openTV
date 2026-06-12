@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme palette. -->
+    <color name="background">#0D0D0F</color>
+    <color name="surface">#1A1A1F</color>
+    <color name="accent">#00E0A4</color>          <!-- focus / progress accent -->
+    <color name="accent_dark">#00B486</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B8</color>
+    <color name="focus_stroke">#00E0A4</color>     <!-- large D-pad focus ring -->
+</resources>

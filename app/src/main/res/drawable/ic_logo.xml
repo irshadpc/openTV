@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Custom "Open TV World Cup" logo.
+     A golden World-Cup style trophy with a soccer ball, framed by a stylized
+     TV / play motif in the brand accent colour. Drawn as a vector so it stays
+     crisp at every density on 1080p and 4K screens. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Accent rounded "screen" backplate -->
+    <path
+        android:fillColor="#00E0A4"
+        android:pathData="M18,16 h72 a10,10 0 0 1 10,10 v56 a10,10 0 0 1 -10,10 h-72 a10,10 0 0 1 -10,-10 v-56 a10,10 0 0 1 10,-10 z" />
+    <!-- Inner dark screen -->
+    <path
+        android:fillColor="#0D0D0F"
+        android:pathData="M16,24 h76 a4,4 0 0 1 4,4 v52 a4,4 0 0 1 -4,4 h-76 a4,4 0 0 1 -4,-4 v-52 a4,4 0 0 1 4,-4 z" />
+
+    <!-- ===== Trophy ===== -->
+    <!-- Cup bowl -->
+    <path
+        android:fillColor="#FFC94D"
+        android:pathData="M42,32 h24 v10 a12,12 0 0 1 -24,0 z" />
+    <!-- Left handle -->
+    <path
+        android:fillColor="#FFC94D"
+        android:pathData="M42,34 a8,8 0 0 0 -8,8 a8,8 0 0 0 8,8 v-5 a3,3 0 0 1 0,-6 z" />
+    <!-- Right handle -->
+    <path
+        android:fillColor="#FFC94D"
+        android:pathData="M66,34 a8,8 0 0 1 8,8 a8,8 0 0 1 -8,8 v-5 a3,3 0 0 0 0,-6 z" />
+    <!-- Stem -->
+    <path
+        android:fillColor="#E8A92E"
+        android:pathData="M50,53 h8 v8 h-8 z" />
+    <!-- Base -->
+    <path
+        android:fillColor="#FFC94D"
+        android:pathData="M40,61 h28 v5 h-28 z" />
+    <path
+        android:fillColor="#E8A92E"
+        android:pathData="M44,66 h20 v4 h-20 z" />
+
+    <!-- ===== Soccer ball on the cup ===== -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,32 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" />
+    <!-- Pentagon accents -->
+    <path
+        android:fillColor="#0D0D0F"
+        android:pathData="M54,28 l3,2.2 l-1.2,3.6 l-3.6,0 l-1.2,-3.6 z" />
+    <path
+        android:fillColor="#0D0D0F"
+        android:pathData="M48.5,31.5 l1.5,2 l-1.5,2 l-2,-1 z" />
+    <path
+        android:fillColor="#0D0D0F"
+        android:pathData="M59.5,31.5 l2,1 l-2,1 l-1.5,-2 z" />
+</vector>

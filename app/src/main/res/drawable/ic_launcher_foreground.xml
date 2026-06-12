@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon foreground. Content is kept inside the central safe zone
+     (~66dp of the 108dp canvas) so the launcher mask never clips the trophy. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group android:scaleX="0.62" android:scaleY="0.62" android:pivotX="54" android:pivotY="54">
+        <!-- Cup bowl -->
+        <path android:fillColor="#FFC94D"
+            android:pathData="M38,40 h32 v14 a16,16 0 0 1 -32,0 z" />
+        <!-- Left handle -->
+        <path android:fillColor="#FFC94D"
+            android:pathData="M38,43 a10,10 0 0 0 -10,10 a10,10 0 0 0 10,10 v-6 a4,4 0 0 1 0,-8 z" />
+        <!-- Right handle -->
+        <path android:fillColor="#FFC94D"
+            android:pathData="M70,43 a10,10 0 0 1 10,10 a10,10 0 0 1 -10,10 v-6 a4,4 0 0 0 0,-8 z" />
+        <!-- Stem -->
+        <path android:fillColor="#E8A92E" android:pathData="M49,69 h10 v10 h-10 z" />
+        <!-- Base -->
+        <path android:fillColor="#FFC94D" android:pathData="M36,79 h36 v6 h-36 z" />
+        <path android:fillColor="#E8A92E" android:pathData="M41,85 h26 v5 h-26 z" />
+        <!-- Soccer ball -->
+        <path android:fillColor="#FFFFFF"
+            android:pathData="M54,40 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0" />
+        <path android:fillColor="#0D0D0F"
+            android:pathData="M54,35 l4,2.9 l-1.5,4.6 l-5,0 l-1.5,-4.6 z" />
+    </group>
+</vector>

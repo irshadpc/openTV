@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android TV home-screen banner (320x180, 16:9). Trophy mark on the left,
+     wordmark on the right. Vector keeps it crisp on 1080p and 4K. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+
+    <!-- Background -->
+    <path android:fillColor="#0D0D0F" android:pathData="M0,0 h320 v180 h-320 z" />
+    <!-- Accent edge bar -->
+    <path android:fillColor="#00E0A4" android:pathData="M0,0 h6 v180 h-6 z" />
+
+    <!-- ===== Trophy mark (left) ===== -->
+    <group android:translateX="40" android:translateY="46">
+        <!-- Cup bowl -->
+        <path android:fillColor="#FFC94D" android:pathData="M14,0 h32 v14 a16,16 0 0 1 -32,0 z" />
+        <!-- Left handle -->
+        <path android:fillColor="#FFC94D" android:pathData="M14,3 a10,10 0 0 0 -10,10 a10,10 0 0 0 10,10 v-6 a4,4 0 0 1 0,-8 z" />
+        <!-- Right handle -->
+        <path android:fillColor="#FFC94D" android:pathData="M46,3 a10,10 0 0 1 10,10 a10,10 0 0 1 -10,10 v-6 a4,4 0 0 0 0,-8 z" />
+        <!-- Stem + base -->
+        <path android:fillColor="#E8A92E" android:pathData="M25,29 h10 v10 h-10 z" />
+        <path android:fillColor="#FFC94D" android:pathData="M12,39 h36 v6 h-36 z" />
+        <path android:fillColor="#E8A92E" android:pathData="M17,45 h26 v5 h-26 z" />
+        <!-- Soccer ball -->
+        <path android:fillColor="#FFFFFF" android:pathData="M30,0 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0" />
+        <path android:fillColor="#0D0D0F" android:pathData="M30,-5 l4,2.9 l-1.5,4.6 l-5,0 l-1.5,-4.6 z" />
+    </group>
+
+    <!-- ===== Wordmark (right) ===== -->
+    <!-- "OPEN TV" -->
+    <path android:fillColor="#FFFFFF" android:pathData="M130,58 h120 v12 h-120 z" />
+    <!-- "WORLD CUP" -->
+    <path android:fillColor="#00E0A4" android:pathData="M130,80 h150 v10 h-150 z" />
+    <!-- subtitle line -->
+    <path android:fillColor="#B0B0B8" android:pathData="M130,98 h90 v5 h-90 z" />
+</vector>

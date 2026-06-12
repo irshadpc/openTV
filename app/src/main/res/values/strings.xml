@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Open TV World Cup</string>
+
+    <!-- Navigation / general -->
+    <string name="press_back_again">Press BACK again to exit</string>
+
+    <!-- Offline screen -->
+    <string name="offline_title">No Internet Connection</string>
+    <string name="offline_message">Please check your network. The app will reload automatically when you\'re back online.</string>
+    <string name="action_retry">Retry</string>
+
+    <!-- Settings panel -->
+    <string name="settings_title">Settings</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_go_home">Go to Home</string>
+    <string name="action_clear_cache">Clear Cache</string>
+    <string name="action_exit">Exit</string>
+    <string name="cache_cleared">Cache cleared</string>
+</resources>

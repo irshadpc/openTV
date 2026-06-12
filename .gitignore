@@ -1,0 +1,19 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Never commit signing secrets.
+keystore.properties
+*.keystore
+*.jks
+
+# Build output APKs are distributed via GitHub Releases, not committed.
+*.apk
