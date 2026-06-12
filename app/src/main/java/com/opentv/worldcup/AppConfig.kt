@@ -35,6 +35,25 @@ object AppConfig {
     /** Milliseconds within which a second BACK press exits the app. */
     const val DOUBLE_BACK_EXIT_MS: Long = 2000L
 
+    // -----------------------------------------------------------------------
+    // Live Channels (M3U playlist) configuration.
+    //
+    // The native Media3 player plays direct HLS (.m3u8) streams listed in an
+    // M3U playlist. Populate the playlist with sources YOU are licensed to use
+    // (your own paid IPTV subscription's M3U, official/free streams, etc.).
+    // -----------------------------------------------------------------------
+
+    /**
+     * Optional remote M3U playlist URL. If left blank, the app loads the bundled
+     * asset playlist named [PLAYLIST_ASSET] from app/src/main/assets instead.
+     *
+     * Example: "https://my-provider.example/playlist.m3u"
+     */
+    const val PLAYLIST_URL: String = ""
+
+    /** Bundled fallback playlist in app/src/main/assets/. */
+    const val PLAYLIST_ASSET: String = "playlist.m3u"
+
     // --- Keys for persisted preferences. ---
     const val PREFS_NAME: String = "open_tv_prefs"
     const val KEY_LAST_URL: String = "last_visited_url"

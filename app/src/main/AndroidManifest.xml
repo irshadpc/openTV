@@ -63,6 +63,23 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.OpenTV" />
 
+        <!-- Live Channels list (parsed from an M3U playlist). -->
+        <activity
+            android:name=".player.ChannelsActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|keyboard|navigation|uiMode|density|fontScale"
+            android:theme="@style/Theme.OpenTV" />
+
+        <!-- Native Media3 / ExoPlayer full-screen HLS player. -->
+        <activity
+            android:name=".player.PlayerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|keyboard|navigation|uiMode|density|fontScale"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.OpenTV" />
+
     </application>
 
 </manifest>

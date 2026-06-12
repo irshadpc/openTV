@@ -106,4 +106,12 @@ dependencies {
 
     // ConstraintLayout for the overlay UI (spinner, error screen).
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    // RecyclerView for the D-pad channel list.
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // Media3 / ExoPlayer: native HLS playback for direct .m3u8 streams.
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.4.1")
+    implementation("androidx.media3:media3-ui:1.4.1")
 }

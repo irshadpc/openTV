@@ -2,6 +2,7 @@ package com.opentv.worldcup
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -19,6 +20,7 @@ import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.opentv.worldcup.databinding.ActivityMainBinding
+import com.opentv.worldcup.player.ChannelsActivity
 import com.opentv.worldcup.util.NetworkMonitor
 import com.opentv.worldcup.web.TvWebChromeClient
 import com.opentv.worldcup.web.TvWebViewClient
@@ -264,6 +266,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle(R.string.settings_title)
             .setItems(
                 arrayOf(
+                    getString(R.string.action_live_channels),
                     getString(R.string.action_refresh),
                     getString(R.string.action_go_home),
                     getString(R.string.action_clear_cache),
@@ -271,13 +274,14 @@ class MainActivity : AppCompatActivity() {
                 )
             ) { _, which ->
                 when (which) {
-                    0 -> webView.reload()
-                    1 -> webView.loadUrl(AppConfig.START_URL)
-                    2 -> {
+                    0 -> startActivity(Intent(this, ChannelsActivity::class.java))
+                    1 -> webView.reload()
+                    2 -> webView.loadUrl(AppConfig.START_URL)
+                    3 -> {
                         webView.clearCache(true)
                         Toast.makeText(this, R.string.cache_cleared, Toast.LENGTH_SHORT).show()
                     }
-                    3 -> finish()
+                    4 -> finish()
                 }
             }
             .show()

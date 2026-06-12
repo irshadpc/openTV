@@ -1,0 +1,23 @@
+#EXTM3U
+# =============================================================================
+# Open TV — Live Channels playlist
+# =============================================================================
+# Add ONLY streams you are legally entitled to use here, for example:
+#   - your own paid IPTV subscription's M3U entries
+#   - official / free-to-air HLS streams you have the right to play
+#
+# Format per entry:
+#   #EXTINF:-1 tvg-logo="LOGO_URL" group-title="CATEGORY",Display Name
+#   https://host/path/master.m3u8
+#
+# To use a remote playlist instead of this file, set AppConfig.PLAYLIST_URL.
+#
+# The two entries below are PUBLIC TEST STREAMS (not World Cup content) so you
+# can verify playback works out of the box. Replace them with your sources.
+# =============================================================================
+
+#EXTINF:-1 group-title="Test",Apple HLS Test Stream
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+
+#EXTINF:-1 group-title="Test",Mux Test Stream
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8

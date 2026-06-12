@@ -61,6 +61,39 @@ opentv/
 
 ---
 
+## 📡 Live Channels (native HLS player + M3U)
+
+Alongside the WebView, the app includes a **native Media3 / ExoPlayer** path for
+direct HLS (`.m3u8`) streams, driven by an **M3U playlist**:
+
+- Open it from the WebView's **MENU → Live Channels**.
+- Channels are listed in a D-pad-navigable screen; selecting one opens the
+  full-screen native player.
+- In the player, **CHANNEL +/-** (or media next/prev) switches channels.
+
+### Adding your own sources (important)
+
+The app ships an empty-by-design template at
+**`app/src/main/assets/playlist.m3u`** containing only public *test* streams.
+Add **only sources you are legally entitled to use** (your own paid IPTV
+subscription's M3U entries, official/free HLS streams, etc.):
+
+```m3u
+#EXTINF:-1 group-title="Sports",My Licensed Channel
+https://my-provider.example/stream/master.m3u8
+```
+
+To use a **remote** playlist instead of the bundled file, set one variable in
+`AppConfig.kt`:
+
+```kotlin
+const val PLAYLIST_URL = "https://my-provider.example/playlist.m3u"
+```
+
+> This project provides the playback **engine** only. It does not include or
+> endorse any unauthorized streams of licensed content (e.g. World Cup
+> broadcasts). You are responsible for the legality of the sources you add.
+
 ## 🔧 Changing the streamed site (future-proofing)
 
 Open **`app/src/main/java/com/opentv/worldcup/AppConfig.kt`** and edit a single
