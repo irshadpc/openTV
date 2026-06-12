@@ -27,10 +27,16 @@ class ChannelsActivity : AppCompatActivity() {
     private lateinit var progress: ProgressBar
     private lateinit var statusText: TextView
     private lateinit var sourceButton: Button
+    private lateinit var filterButton: Button
     private val adapter = ChannelAdapter(::openChannel)
 
+    /** Full parsed list from the current source. */
+    private var allChannels: List<Channel> = emptyList()
+    /** Currently displayed list (after optional filtering). */
     private var channels: List<Channel> = emptyList()
     private var sourceIndex = 0
+    /** When true, only sports / 2026-broadcaster channels are shown. */
+    private var filterRelevant = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,15 +47,53 @@ class ChannelsActivity : AppCompatActivity() {
         progress = findViewById(R.id.channelsProgress)
         statusText = findViewById(R.id.channelsStatus)
         sourceButton = findViewById(R.id.sourceButton)
+        filterButton = findViewById(R.id.filterButton)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
         sourceButton.setOnClickListener { showSourcePicker() }
+        filterButton.setOnClickListener {
+            filterRelevant = !filterRelevant
+            updateFilterLabel()
+            applyFilter()
+        }
 
         repository = PlaylistRepository(this)
         updateSourceLabel()
+        updateFilterLabel()
         loadPlaylist()
+    }
+
+    /** Applies the World Cup keyword filter to [allChannels] and updates the UI. */
+    private fun applyFilter() {
+        channels = if (filterRelevant) {
+            allChannels.filter { ch ->
+                val haystack = (ch.name + " " + (ch.group ?: "")).lowercase()
+                AppConfig.RELEVANT_KEYWORDS.any { haystack.contains(it) }
+            }
+        } else {
+            allChannels
+        }
+        adapter.submit(channels)
+
+        if (channels.isEmpty()) {
+            recyclerView.visibility = View.GONE
+            statusText.visibility = View.VISIBLE
+            statusText.text = getString(R.string.channels_no_matches)
+        } else {
+            statusText.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            recyclerView.post { recyclerView.requestFocus() }
+        }
+    }
+
+    private fun updateFilterLabel() {
+        val state = getString(
+            if (filterRelevant) R.string.channels_filter_worldcup
+            else R.string.channels_filter_all
+        )
+        filterButton.text = getString(R.string.channels_filter_label, state)
     }
 
     /** Lets the user pick which configured playlist to load. */
@@ -81,12 +125,9 @@ class ChannelsActivity : AppCompatActivity() {
         repository.load(
             url = source?.url,
             onSuccess = { result ->
-                channels = result
-                adapter.submit(result)
+                allChannels = result
                 setLoading(false)
-                recyclerView.visibility = View.VISIBLE
-                statusText.visibility = View.GONE
-                recyclerView.post { recyclerView.requestFocus() }
+                applyFilter()
             },
             onError = { message ->
                 setLoading(false)

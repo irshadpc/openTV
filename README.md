@@ -89,6 +89,10 @@ These are free public channels — some carry World Cup matches in their region,
 but availability and quality vary and links can break over time. Edit the list
 in `AppConfig.PLAYLIST_SOURCES` to add/remove sources.
 
+A **Filter** button (next to Source) trims a large list down to sports /
+2026-broadcaster channels (default **World Cup**), or toggles to **All**. The
+match keywords live in `AppConfig.RELEVANT_KEYWORDS`.
+
 ### Adding your own sources (important)
 
 The app ships an empty-by-design template at

@@ -26,6 +26,10 @@
     <string name="channels_title">Live Channels</string>
     <string name="channels_source_label">Source: %1$s</string>
     <string name="channels_pick_source">Choose a playlist</string>
+    <string name="channels_filter_label">Filter: %1$s</string>
+    <string name="channels_filter_worldcup">World Cup</string>
+    <string name="channels_filter_all">All</string>
+    <string name="channels_no_matches">No matching channels — press Filter to show All.</string>
     <string name="player_no_stream">No stream URL provided</string>
     <string name="player_error">Playback error: %1$s</string>
 </resources>

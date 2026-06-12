@@ -71,6 +71,19 @@ object AppConfig {
      */
     data class PlaylistSource(val name: String, val url: String)
 
+    /**
+     * Keywords used by the Live Channels "World Cup" filter to trim a large
+     * iptv-org list down to sports / known 2026-broadcaster channels. A channel
+     * matches if its name or group contains any of these (case-insensitive).
+     * Covers generic sports terms plus major US/CA/MX/UK rights-holders.
+     */
+    val RELEVANT_KEYWORDS: List<String> = listOf(
+        "sport", "fifa", "world cup", "mundial", "football", "soccer", "futbol",
+        "fútbol", "deportes", "fox", "espn", "fs1", "fs2", "fubo", "tnt", "bein",
+        "dazn", "telemundo", "univision", "tudn", "azteca", "tsn", "rds", "cbc",
+        "bbc", "itv", "channel 4", "sbs", "optus"
+    )
+
     val PLAYLIST_SOURCES: List<PlaylistSource> = listOf(
         PlaylistSource("Sports — Global", "https://iptv-org.github.io/iptv/categories/sports.m3u"),
         PlaylistSource("United States", "https://iptv-org.github.io/iptv/countries/us.m3u"),

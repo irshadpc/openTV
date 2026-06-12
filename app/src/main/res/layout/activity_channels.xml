@@ -35,6 +35,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- World Cup keyword filter toggle (focusable), left of the source button. -->
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="14dp"
+        android:textColor="@color/text_primary"
+        android:textSize="16sp"
+        android:background="@drawable/focus_ring_button"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="@id/sourceButton"
+        app:layout_constraintEnd_toStartOf="@id/sourceButton" />
+
     <!-- Channel list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/channelList"
