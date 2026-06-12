@@ -1,9 +1,9 @@
-package com.opentv.worldcup.player
+package com.opentv.app.player
 
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import com.opentv.worldcup.AppConfig
+import com.opentv.app.AppConfig
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors

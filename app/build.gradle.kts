@@ -27,16 +27,16 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.opentv.worldcup"
+    namespace = "com.opentv.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.opentv.worldcup"
+        applicationId = "com.opentv.app"
         // Android TV 9 (API 28) and above, as required.
         minSdk = 28
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.2.0"
+        versionCode = 3
+        versionName = "1.3.0"
     }
 
     signingConfigs {

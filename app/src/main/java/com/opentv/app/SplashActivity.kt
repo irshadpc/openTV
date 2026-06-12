@@ -1,4 +1,4 @@
-package com.opentv.worldcup
+package com.opentv.app
 
 import android.content.Intent
 import android.os.Bundle

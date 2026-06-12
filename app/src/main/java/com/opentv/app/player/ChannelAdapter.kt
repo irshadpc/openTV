@@ -1,11 +1,11 @@
-package com.opentv.worldcup.player
+package com.opentv.app.player
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.opentv.worldcup.R
+import com.opentv.app.R
 
 /**
  * Renders the channel list as large, D-pad-focusable rows.

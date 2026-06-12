@@ -1,4 +1,4 @@
-package com.opentv.worldcup.player
+package com.opentv.app.player
 
 /**
  * A single playable entry parsed from an M3U playlist.

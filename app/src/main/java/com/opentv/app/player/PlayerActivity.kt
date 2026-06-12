@@ -1,4 +1,4 @@
-package com.opentv.worldcup.player
+package com.opentv.app.player
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -15,7 +15,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import com.opentv.worldcup.R
+import com.opentv.app.R
 
 /**
  * Native full-screen HLS player backed by Media3 / ExoPlayer.

@@ -42,7 +42,7 @@ opentv/
     ├── proguard-rules.pro
     └── src/main/
         ├── AndroidManifest.xml       # Leanback, banner, permissions, activities
-        ├── java/com/opentv/worldcup/
+        ├── java/com/opentv/app/
         │   ├── AppConfig.kt          # ⭐ single place to change the URL
         │   ├── OpenTvApplication.kt  # app-wide cookie setup
         │   ├── SplashActivity.kt     # branded splash → MainActivity
@@ -118,7 +118,7 @@ const val PLAYLIST_URL = "https://my-provider.example/playlist.m3u"
 
 ## 🔧 Changing the streamed site (future-proofing)
 
-Open **`app/src/main/java/com/opentv/worldcup/AppConfig.kt`** and edit a single
+Open **`app/src/main/java/com/opentv/app/AppConfig.kt`** and edit a single
 constant:
 
 ```kotlin
@@ -147,7 +147,7 @@ If the new site navigates to other top-level hosts, also add them to
 ### B. Build a debug APK from the command line
 
 A prebuilt debug APK is already included at the project root:
-**`OpenTV-WorldCup-debug.apk`** (ready to install — see below).
+**`OpenTV-debug.apk`** (ready to install — see below).
 
 To rebuild it yourself, use the bundled helper script (sets JDK 17 + SDK env,
 installs the needed SDK packages, then builds):
@@ -173,7 +173,7 @@ ANDROID_HOME=/opt/homebrew/share/android-commandlinetools \
 #    Developer options, then enable "Network debugging" / "USB debugging".
 # 2. From your computer (replace with your TV's IP shown in Network debugging):
 adb connect 192.168.1.50:5555
-adb install -r OpenTV-WorldCup-debug.apk
+adb install -r OpenTV-debug.apk
 # 3. The app appears on the Android TV home row with its banner.
 ```
 

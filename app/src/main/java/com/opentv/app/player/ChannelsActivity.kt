@@ -1,4 +1,4 @@
-package com.opentv.worldcup.player
+package com.opentv.app.player
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +11,8 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.opentv.worldcup.AppConfig
-import com.opentv.worldcup.R
+import com.opentv.app.AppConfig
+import com.opentv.app.R
 
 /**
  * Shows the parsed M3U channels in a D-pad-navigable list. A "Source" button

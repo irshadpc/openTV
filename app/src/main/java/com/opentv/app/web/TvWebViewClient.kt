@@ -1,4 +1,4 @@
-package com.opentv.worldcup.web
+package com.opentv.app.web
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -8,7 +8,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.opentv.worldcup.AppConfig
+import com.opentv.app.AppConfig
 
 /**
  * Custom [WebViewClient] responsible for:

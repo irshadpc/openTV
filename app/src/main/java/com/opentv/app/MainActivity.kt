@@ -1,4 +1,4 @@
-package com.opentv.worldcup
+package com.opentv.app
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,12 +19,12 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.opentv.worldcup.databinding.ActivityMainBinding
-import com.opentv.worldcup.player.ChannelsActivity
-import com.opentv.worldcup.util.ExternalAppLauncher
-import com.opentv.worldcup.util.NetworkMonitor
-import com.opentv.worldcup.web.TvWebChromeClient
-import com.opentv.worldcup.web.TvWebViewClient
+import com.opentv.app.databinding.ActivityMainBinding
+import com.opentv.app.player.ChannelsActivity
+import com.opentv.app.util.ExternalAppLauncher
+import com.opentv.app.util.NetworkMonitor
+import com.opentv.app.web.TvWebChromeClient
+import com.opentv.app.web.TvWebViewClient
 
 /**
  * Hosts the full-screen streaming WebView and all TV-specific behavior:

@@ -1,4 +1,4 @@
-package com.opentv.worldcup.web
+package com.opentv.app.web
 
 import android.view.View
 import android.webkit.WebChromeClient

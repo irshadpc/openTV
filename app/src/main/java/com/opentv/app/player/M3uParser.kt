@@ -1,4 +1,4 @@
-package com.opentv.worldcup.player
+package com.opentv.app.player
 
 /**
  * Minimal, dependency-free parser for extended M3U (`#EXTM3U`) playlists.

@@ -4,7 +4,7 @@
 }
 
 # Keep WebView client/chrome client classes intact.
--keep class com.opentv.worldcup.web.** { *; }
+-keep class com.opentv.app.web.** { *; }
 
 # Standard Kotlin metadata.
 -keep class kotlin.Metadata { *; }

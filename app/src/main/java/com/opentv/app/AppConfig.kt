@@ -1,4 +1,4 @@
-package com.opentv.worldcup
+package com.opentv.app
 
 /**
  * Single source of truth for app-wide configuration.
