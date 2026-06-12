@@ -8,6 +8,17 @@
     <!-- Keep the screen on while video is playing. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- Package visibility (Android 11+): lets us detect & launch the official
+         Tubi / Fox Sports apps, plus Play Store / browser fallbacks. -->
+    <queries>
+        <package android:name="com.tubitv" />
+        <package android:name="com.foxsports.videogo" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <!-- Touchscreen is NOT required: this is a 10-foot / remote experience. -->
     <uses-feature
         android:name="android.hardware.touchscreen"

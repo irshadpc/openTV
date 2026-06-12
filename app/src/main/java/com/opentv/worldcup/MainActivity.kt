@@ -21,6 +21,7 @@ import androidx.webkit.WebViewFeature
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.opentv.worldcup.databinding.ActivityMainBinding
 import com.opentv.worldcup.player.ChannelsActivity
+import com.opentv.worldcup.util.ExternalAppLauncher
 import com.opentv.worldcup.util.NetworkMonitor
 import com.opentv.worldcup.web.TvWebChromeClient
 import com.opentv.worldcup.web.TvWebViewClient
@@ -262,29 +263,50 @@ class MainActivity : AppCompatActivity() {
     // ---------------------------------------------------------------------
 
     private fun showSettingsPanel() {
+        // Each entry pairs a visible label with the action to run when chosen.
+        // External streaming apps (Tubi, Fox Sports) are listed first, built
+        // from AppConfig.EXTERNAL_APPS so adding more is a one-line change.
+        val entries = mutableListOf<Pair<String, () -> Unit>>()
+
+        AppConfig.EXTERNAL_APPS.forEach { app ->
+            entries += app.label to { openExternalApp(app) }
+        }
+        entries += getString(R.string.action_live_channels) to {
+            startActivity(Intent(this, ChannelsActivity::class.java))
+        }
+        entries += getString(R.string.action_refresh) to { webView.reload() }
+        entries += getString(R.string.action_go_home) to { webView.loadUrl(AppConfig.START_URL) }
+        entries += getString(R.string.action_clear_cache) to {
+            webView.clearCache(true)
+            Toast.makeText(this, R.string.cache_cleared, Toast.LENGTH_SHORT).show()
+        }
+        entries += getString(R.string.action_exit) to { finish() }
+
         MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_OpenTV_Dialog)
             .setTitle(R.string.settings_title)
-            .setItems(
-                arrayOf(
-                    getString(R.string.action_live_channels),
-                    getString(R.string.action_refresh),
-                    getString(R.string.action_go_home),
-                    getString(R.string.action_clear_cache),
-                    getString(R.string.action_exit)
-                )
-            ) { _, which ->
-                when (which) {
-                    0 -> startActivity(Intent(this, ChannelsActivity::class.java))
-                    1 -> webView.reload()
-                    2 -> webView.loadUrl(AppConfig.START_URL)
-                    3 -> {
-                        webView.clearCache(true)
-                        Toast.makeText(this, R.string.cache_cleared, Toast.LENGTH_SHORT).show()
-                    }
-                    4 -> finish()
-                }
+            .setItems(entries.map { it.first }.toTypedArray()) { _, which ->
+                entries[which].second.invoke()
             }
             .show()
+    }
+
+    /**
+     * Hand off to an official streaming app. If it's installed we launch it
+     * (it handles login/ads/DRM natively); otherwise we offer the Play Store,
+     * and as a last resort load the service's website in our own WebView.
+     */
+    private fun openExternalApp(app: AppConfig.ExternalApp) {
+        if (ExternalAppLauncher.launchApp(this, app.packageName)) return
+
+        Toast.makeText(
+            this,
+            getString(R.string.app_not_installed, app.label),
+            Toast.LENGTH_LONG
+        ).show()
+
+        if (ExternalAppLauncher.openUrlExternally(this, app.playStoreUrl)) return
+        // No Play Store handler (rare): fall back to the site in the WebView.
+        webView.loadUrl(app.webUrl)
     }
 
     // ---------------------------------------------------------------------

@@ -21,7 +21,10 @@ object AppConfig {
      */
     val ALLOWED_HOSTS: List<String> = listOf(
         "github.io",
-        "githubusercontent.com"
+        "githubusercontent.com",
+        // Allowed so the WebView fallback can open these official sites.
+        "tubitv.com",
+        "foxsports.com"
     )
 
     /**
@@ -53,6 +56,43 @@ object AppConfig {
 
     /** Bundled fallback playlist in app/src/main/assets/. */
     const val PLAYLIST_ASSET: String = "playlist.m3u"
+
+    // -----------------------------------------------------------------------
+    // External streaming apps (official, licensed services).
+    //
+    // The app does NOT restream their content. It hands off to the installed
+    // official app (which handles login/ads/DRM natively), and only falls back
+    // to the Play Store / website if that app isn't installed.
+    //
+    //   - Tubi: free, ad-supported, Fox-owned; carries Fox's free World Cup
+    //           coverage in the US (no login required).
+    //   - Fox Sports: official US World Cup rights-holder (TV-provider login).
+    //
+    // Verify a package on your device with:
+    //   adb shell pm list packages | grep -iE "tubi|fox"
+    // and update [packageName] if it differs.
+    // -----------------------------------------------------------------------
+    data class ExternalApp(
+        val label: String,
+        val packageName: String,
+        val webUrl: String,
+        val playStoreUrl: String
+    )
+
+    val EXTERNAL_APPS: List<ExternalApp> = listOf(
+        ExternalApp(
+            label = "Tubi",
+            packageName = "com.tubitv",
+            webUrl = "https://tubitv.com",
+            playStoreUrl = "https://play.google.com/store/apps/details?id=com.tubitv"
+        ),
+        ExternalApp(
+            label = "Fox Sports",
+            packageName = "com.foxsports.videogo",
+            webUrl = "https://www.foxsports.com/soccer/fifa-world-cup",
+            playStoreUrl = "https://play.google.com/store/apps/details?id=com.foxsports.videogo"
+        )
+    )
 
     // --- Keys for persisted preferences. ---
     const val PREFS_NAME: String = "open_tv_prefs"

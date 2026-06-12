@@ -18,6 +18,9 @@
     <string name="action_exit">Exit</string>
     <string name="cache_cleared">Cache cleared</string>
 
+    <!-- External streaming apps -->
+    <string name="app_not_installed">%1$s isn\'t installed — opening the store to get it.</string>
+
     <!-- Live channels / native player -->
     <string name="action_live_channels">Live Channels</string>
     <string name="channels_title">Live Channels</string>
