@@ -35,8 +35,8 @@ android {
         // Android TV 9 (API 28) and above, as required.
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.2.0"
     }
 
     signingConfigs {

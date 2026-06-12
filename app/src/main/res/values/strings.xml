@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Open TV World Cup</string>
+    <string name="app_name">Open TV</string>
 
     <!-- Navigation / general -->
     <string name="press_back_again">Press BACK again to exit</string>
