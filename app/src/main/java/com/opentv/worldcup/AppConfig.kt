@@ -57,6 +57,29 @@ object AppConfig {
     /** Bundled fallback playlist in app/src/main/assets/. */
     const val PLAYLIST_ASSET: String = "playlist.m3u"
 
+    /**
+     * Selectable M3U sources shown in the Live Channels screen.
+     *
+     * These point at the open-source **iptv-org/iptv** project
+     * (https://github.com/iptv-org/iptv), which catalogs **publicly available,
+     * free** streams — it hosts no content itself. For the World Cup the most
+     * relevant lists are the global Sports category plus the three 2026 host
+     * countries (USA, Canada, Mexico), where free-to-air channels often carry
+     * matches. Availability/quality varies and some links may break over time.
+     *
+     * An empty [url] means "load the bundled [PLAYLIST_ASSET]" (offline).
+     */
+    data class PlaylistSource(val name: String, val url: String)
+
+    val PLAYLIST_SOURCES: List<PlaylistSource> = listOf(
+        PlaylistSource("Sports — Global", "https://iptv-org.github.io/iptv/categories/sports.m3u"),
+        PlaylistSource("United States", "https://iptv-org.github.io/iptv/countries/us.m3u"),
+        PlaylistSource("Canada", "https://iptv-org.github.io/iptv/countries/ca.m3u"),
+        PlaylistSource("Mexico", "https://iptv-org.github.io/iptv/countries/mx.m3u"),
+        PlaylistSource("United Kingdom", "https://iptv-org.github.io/iptv/countries/uk.m3u"),
+        PlaylistSource("Bundled (offline)", "")
+    )
+
     // -----------------------------------------------------------------------
     // External streaming apps (official, licensed services).
     //

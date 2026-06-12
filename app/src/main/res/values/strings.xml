@@ -24,6 +24,8 @@
     <!-- Live channels / native player -->
     <string name="action_live_channels">Live Channels</string>
     <string name="channels_title">Live Channels</string>
+    <string name="channels_source_label">Source: %1$s</string>
+    <string name="channels_pick_source">Choose a playlist</string>
     <string name="player_no_stream">No stream URL provided</string>
     <string name="player_error">Playback error: %1$s</string>
 </resources>

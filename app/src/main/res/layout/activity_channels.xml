@@ -18,7 +18,22 @@
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/sourceButton"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Source picker (focusable). Switches between configured playlists. -->
+    <Button
+        android:id="@+id/sourceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="220dp"
+        android:padding="14dp"
+        android:textColor="@color/text_primary"
+        android:textSize="16sp"
+        android:background="@drawable/focus_ring_button"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Channel list -->
     <androidx.recyclerview.widget.RecyclerView
@@ -29,7 +44,7 @@
         android:clipToPadding="false"
         android:focusable="true"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/channelsTitle"
+        app:layout_constraintTop_toBottomOf="@id/sourceButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

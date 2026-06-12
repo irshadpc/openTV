@@ -71,6 +71,24 @@ direct HLS (`.m3u8`) streams, driven by an **M3U playlist**:
   full-screen native player.
 - In the player, **CHANNEL +/-** (or media next/prev) switches channels.
 
+### Built-in sources (iptv-org)
+
+Out of the box, the **Source** button in Live Channels switches between
+playlists from the open-source [**iptv-org/iptv**](https://github.com/iptv-org/iptv)
+project — a catalog of **publicly available, free** streams (it hosts no
+content itself):
+
+| Source | Playlist |
+|--------|----------|
+| Sports — Global | `categories/sports.m3u` |
+| United States / Canada / Mexico | `countries/{us,ca,mx}.m3u` (2026 host nations) |
+| United Kingdom | `countries/uk.m3u` |
+| Bundled (offline) | the local `assets/playlist.m3u` test streams |
+
+These are free public channels — some carry World Cup matches in their region,
+but availability and quality vary and links can break over time. Edit the list
+in `AppConfig.PLAYLIST_SOURCES` to add/remove sources.
+
 ### Adding your own sources (important)
 
 The app ships an empty-by-design template at

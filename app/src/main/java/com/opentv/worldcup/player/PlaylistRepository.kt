@@ -21,17 +21,20 @@ class PlaylistRepository(context: Context) {
     private val mainHandler = Handler(Looper.getMainLooper())
 
     /**
+     * @param url       remote M3U URL to load; blank/null loads the bundled
+     *                  asset [AppConfig.PLAYLIST_ASSET].
      * @param onSuccess called on the main thread with the parsed channels.
      * @param onError   called on the main thread with a human-readable message.
      */
     fun load(
+        url: String?,
         onSuccess: (List<Channel>) -> Unit,
         onError: (String) -> Unit
     ) {
         executor.execute {
             try {
-                val content = if (AppConfig.PLAYLIST_URL.isNotBlank()) {
-                    fetchRemote(AppConfig.PLAYLIST_URL)
+                val content = if (!url.isNullOrBlank()) {
+                    fetchRemote(url)
                 } else {
                     fetchAsset(AppConfig.PLAYLIST_ASSET)
                 }
