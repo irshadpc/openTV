@@ -52,18 +52,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Optional refresh button (focusable for the D-pad). Bottom-right. -->
-    <ImageButton
-        android:id="@+id/refreshButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_margin="24dp"
-        android:src="@drawable/ic_refresh"
-        android:background="@drawable/focus_ring_button"
-        android:contentDescription="@string/action_refresh"
-        android:focusable="true"
+    <!-- On-screen control bar (always reachable so no hardware MENU key is
+         needed). Each button is focusable for D-pad AND clickable by the
+         virtual cursor. Bottom-right. -->
+    <LinearLayout
+        android:id="@+id/controlBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/menuButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_menu"
+            android:background="@drawable/focus_ring_button"
+            android:contentDescription="@string/settings_title"
+            android:focusable="true" />
+
+        <ImageButton
+            android:id="@+id/cursorButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_pointer_toggle"
+            android:background="@drawable/focus_ring_button"
+            android:contentDescription="@string/action_toggle_cursor"
+            android:focusable="true" />
+
+        <ImageButton
+            android:id="@+id/refreshButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_refresh"
+            android:background="@drawable/focus_ring_button"
+            android:contentDescription="@string/action_refresh"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <!-- Virtual D-pad pointer. Sits on top of the WebView; moved with the
+         arrows and "clicked" with OK/Center. Hidden until cursor mode is on. -->
+    <ImageView
+        android:id="@+id/cursorView"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/ic_cursor"
+        android:visibility="gone"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Full-screen offline / retry overlay (hidden until connectivity drops). -->
     <LinearLayout

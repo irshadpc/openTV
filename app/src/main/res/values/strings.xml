@@ -4,6 +4,9 @@
 
     <!-- Navigation / general -->
     <string name="press_back_again">Press BACK again to exit</string>
+    <string name="action_toggle_cursor">Toggle pointer</string>
+    <string name="cursor_on">Pointer ON — move with arrows, press OK to click</string>
+    <string name="cursor_off">Pointer OFF — using normal D-pad focus</string>
 
     <!-- Offline screen -->
     <string name="offline_title">No Internet Connection</string>

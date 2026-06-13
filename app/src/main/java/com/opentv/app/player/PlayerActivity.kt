@@ -122,6 +122,15 @@ class PlayerActivity : AppCompatActivity() {
 
             KeyEvent.KEYCODE_CHANNEL_DOWN,
             KeyEvent.KEYCODE_MEDIA_PREVIOUS -> { switchChannel(-1); return true }
+
+            // Many TV remotes have no CHANNEL keys, so when the transport
+            // controls aren't showing, D-pad up/down change channel instead.
+            KeyEvent.KEYCODE_DPAD_UP -> if (!playerView.isControllerFullyVisible) {
+                switchChannel(+1); return true
+            }
+            KeyEvent.KEYCODE_DPAD_DOWN -> if (!playerView.isControllerFullyVisible) {
+                switchChannel(-1); return true
+            }
         }
         return super.onKeyDown(keyCode, event)
     }

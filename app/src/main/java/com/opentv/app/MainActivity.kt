@@ -3,9 +3,10 @@ package com.opentv.app
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.webkit.CookieManager
@@ -44,6 +45,15 @@ class MainActivity : AppCompatActivity() {
 
     private var backPressedTime = 0L
     private var hasLoadedOnce = false
+
+    // --- Virtual D-pad pointer state ---
+    // Cursor mode is ON by default because the streamed website is not built
+    // for a D-pad: the pointer lets the user move freely and click anything.
+    private var cursorMode = true
+    private var cursorX = 0f
+    private var cursorY = 0f
+    private val cursorBaseStep = 26f      // px per key press
+    private val cursorEdgeScroll = 220f   // page scroll when pointer hits an edge
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,8 +141,18 @@ class MainActivity : AppCompatActivity() {
             fullScreenContainer = binding.fullscreenContainer,
             webViewContainer = binding.webView,
             onProgress = { progress -> binding.progressBar.progress = progress },
-            onEnterFullScreen = { hideSystemUi() },
-            onExitFullScreen = { hideSystemUi() }
+            onEnterFullScreen = {
+                // During video playback hide the pointer + control bar so they
+                // don't sit on top of the picture.
+                binding.controlBar.visibility = View.GONE
+                binding.cursorView.visibility = View.GONE
+                hideSystemUi()
+            },
+            onExitFullScreen = {
+                binding.controlBar.visibility = View.VISIBLE
+                applyCursorVisibility()
+                hideSystemUi()
+            }
         )
         webView.webChromeClient = chromeClient
     }
@@ -143,9 +163,131 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupOverlayControls() {
         binding.refreshButton.setOnClickListener { webView.reload() }
+        binding.menuButton.setOnClickListener { showSettingsPanel() }
+        binding.cursorButton.setOnClickListener { toggleCursorMode() }
         binding.retryButton.setOnClickListener {
             showOffline(false)
             loadUrlOrOffline(webView.url ?: AppConfig.START_URL)
+        }
+
+        // Centre the pointer once the root has been measured, then show it.
+        binding.root.post {
+            cursorX = binding.root.width / 2f
+            cursorY = binding.root.height / 2f
+            applyCursorVisibility()
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // Virtual D-pad pointer
+    // ---------------------------------------------------------------------
+
+    /**
+     * When the pointer is on we intercept the D-pad here (before the WebView
+     * sees it): arrows move the pointer, OK "clicks" wherever it sits. This is
+     * what makes a non-TV website usable with a plain remote.
+     */
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        // Don't hijack the D-pad while the offline screen or a video is up, or
+        // when the pointer is disabled — let normal focus handle those.
+        val pointerActive = cursorMode &&
+            binding.offlineLayout.visibility != View.VISIBLE &&
+            !chromeClient.isInFullScreen()
+
+        if (pointerActive && event.action == KeyEvent.ACTION_DOWN) {
+            when (event.keyCode) {
+                KeyEvent.KEYCODE_DPAD_LEFT,
+                KeyEvent.KEYCODE_DPAD_RIGHT,
+                KeyEvent.KEYCODE_DPAD_UP,
+                KeyEvent.KEYCODE_DPAD_DOWN -> {
+                    moveCursor(event.keyCode, event.repeatCount)
+                    return true
+                }
+                KeyEvent.KEYCODE_DPAD_CENTER,
+                KeyEvent.KEYCODE_ENTER,
+                KeyEvent.KEYCODE_BUTTON_A -> {
+                    clickAtCursor()
+                    return true
+                }
+            }
+        }
+        return super.dispatchKeyEvent(event)
+    }
+
+    private fun moveCursor(keyCode: Int, repeatCount: Int) {
+        // Hold an arrow to accelerate, so crossing the screen isn't tedious.
+        val step = cursorBaseStep * (1f + minOf(repeatCount, 12) * 0.6f)
+        val w = binding.root.width.toFloat()
+        val h = binding.root.height.toFloat()
+
+        when (keyCode) {
+            KeyEvent.KEYCODE_DPAD_LEFT -> cursorX -= step
+            KeyEvent.KEYCODE_DPAD_RIGHT -> cursorX += step
+            KeyEvent.KEYCODE_DPAD_UP -> {
+                cursorY -= step
+                if (cursorY <= 0f) webView.scrollBy(0, -cursorEdgeScroll.toInt())
+            }
+            KeyEvent.KEYCODE_DPAD_DOWN -> {
+                cursorY += step
+                if (cursorY >= h) webView.scrollBy(0, cursorEdgeScroll.toInt())
+            }
+        }
+        cursorX = cursorX.coerceIn(0f, w)
+        cursorY = cursorY.coerceIn(0f, h)
+        updateCursorPosition()
+    }
+
+    private fun updateCursorPosition() {
+        binding.cursorView.apply {
+            // Anchor the pointer's tip (top-left of the arrow) at the position.
+            x = cursorX
+            y = cursorY
+            if (visibility != View.VISIBLE) visibility = View.VISIBLE
+        }
+    }
+
+    /** "Clicks" at the pointer: an on-screen control if hit, else the WebView. */
+    private fun clickAtCursor() {
+        val controls = listOf(binding.menuButton, binding.cursorButton, binding.refreshButton)
+        val bar = binding.controlBar
+        for (btn in controls) {
+            // Control buttons live inside controlBar, so add its offset.
+            val left = bar.x + btn.x
+            val top = bar.y + btn.y
+            if (cursorX in left..(left + btn.width) && cursorY in top..(top + btn.height)) {
+                btn.performClick()
+                return
+            }
+        }
+        // Otherwise synthesize a tap into the WebView at the pointer location.
+        val downTime = SystemClock.uptimeMillis()
+        val x = cursorX - webView.x
+        val y = cursorY - webView.y
+        MotionEvent.obtain(downTime, downTime, MotionEvent.ACTION_DOWN, x, y, 0).also {
+            webView.dispatchTouchEvent(it); it.recycle()
+        }
+        MotionEvent.obtain(downTime, downTime + 60, MotionEvent.ACTION_UP, x, y, 0).also {
+            webView.dispatchTouchEvent(it); it.recycle()
+        }
+    }
+
+    private fun toggleCursorMode() {
+        cursorMode = !cursorMode
+        applyCursorVisibility()
+        Toast.makeText(
+            this,
+            if (cursorMode) R.string.cursor_on else R.string.cursor_off,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun applyCursorVisibility() {
+        if (cursorMode && !chromeClient.isInFullScreen() &&
+            binding.offlineLayout.visibility != View.VISIBLE
+        ) {
+            updateCursorPosition()
+        } else {
+            binding.cursorView.visibility = View.GONE
         }
     }
 
@@ -157,7 +299,10 @@ class MainActivity : AppCompatActivity() {
         binding.offlineLayout.visibility = if (show) View.VISIBLE else View.GONE
         if (show) {
             showSpinner(false)
+            binding.cursorView.visibility = View.GONE   // use normal focus here
             binding.retryButton.requestFocus()
+        } else {
+            applyCursorVisibility()
         }
     }
 
