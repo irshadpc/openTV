@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
+import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -114,6 +117,9 @@ class MainActivity : AppCompatActivity() {
         // Hardware-accelerated rendering for smooth video.
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         webView.setBackgroundColor(0xFF000000.toInt())
+        // Accept synthesized touch/clicks from the virtual pointer.
+        webView.isFocusable = true
+        webView.isFocusableInTouchMode = true
 
         // Persist cookies / sessions across launches.
         CookieManager.getInstance().apply {
@@ -237,14 +243,12 @@ class MainActivity : AppCompatActivity() {
         when (keyCode) {
             KeyEvent.KEYCODE_DPAD_LEFT -> cursorX -= step
             KeyEvent.KEYCODE_DPAD_RIGHT -> cursorX += step
-            KeyEvent.KEYCODE_DPAD_UP -> {
-                cursorY -= step
-                if (cursorY <= 0f) webView.scrollBy(0, -cursorEdgeScroll.toInt())
-            }
-            KeyEvent.KEYCODE_DPAD_DOWN -> {
-                cursorY += step
-                if (cursorY >= h) webView.scrollBy(0, cursorEdgeScroll.toInt())
-            }
+            // At the top/bottom edge a further press scrolls the page via a real
+            // swipe gesture (works for inner scroll containers too).
+            KeyEvent.KEYCODE_DPAD_UP ->
+                if (cursorY - step <= 0f) scrollPage(towardTop = true) else cursorY -= step
+            KeyEvent.KEYCODE_DPAD_DOWN ->
+                if (cursorY + step >= h) scrollPage(towardTop = false) else cursorY += step
         }
         cursorX = cursorX.coerceIn(0f, w)
         cursorY = cursorY.coerceIn(0f, h)
@@ -282,15 +286,69 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-        // Otherwise synthesize a tap into the WebView at the pointer location.
-        val downTime = SystemClock.uptimeMillis()
-        val x = cursorX - webView.x
-        val y = cursorY - webView.y
-        MotionEvent.obtain(downTime, downTime, MotionEvent.ACTION_DOWN, x, y, 0).also {
+        // Otherwise tap the WebView at the pointer's tip.
+        tapWebView(cursorX - webView.x + TIP_OFFSET_X, cursorY - webView.y + TIP_OFFSET_Y)
+    }
+
+    // --- Synthetic touch helpers (proper "finger" events the WebView accepts) ---
+
+    private fun obtainTouch(downTime: Long, eventTime: Long, action: Int, x: Float, y: Float): MotionEvent {
+        val props = MotionEvent.PointerProperties().apply {
+            id = 0
+            toolType = MotionEvent.TOOL_TYPE_FINGER
+        }
+        val coords = MotionEvent.PointerCoords().apply {
+            this.x = x
+            this.y = y
+            pressure = 1f
+            size = 1f
+        }
+        return MotionEvent.obtain(
+            downTime, eventTime, action, 1,
+            arrayOf(props), arrayOf(coords),
+            0, 0, 1f, 1f, 0, 0, InputDevice.SOURCE_TOUCHSCREEN, 0
+        )
+    }
+
+    private fun tapWebView(x: Float, y: Float) {
+        val t = SystemClock.uptimeMillis()
+        obtainTouch(t, t, MotionEvent.ACTION_DOWN, x, y).also {
             webView.dispatchTouchEvent(it); it.recycle()
         }
-        MotionEvent.obtain(downTime, downTime + 60, MotionEvent.ACTION_UP, x, y, 0).also {
+        obtainTouch(t, t + 90, MotionEvent.ACTION_UP, x, y).also {
             webView.dispatchTouchEvent(it); it.recycle()
+        }
+    }
+
+    /** Scrolls the content under the pointer with a real swipe drag. */
+    private fun scrollPage(towardTop: Boolean) {
+        val h = binding.root.height.toFloat()
+        val x = cursorX.coerceIn(40f, binding.root.width - 40f)
+        // To reveal content ABOVE, the finger swipes DOWN, and vice-versa.
+        val fromY = if (towardTop) h * 0.30f else h * 0.70f
+        val toY = if (towardTop) h * 0.70f else h * 0.30f
+        swipeWebView(x, fromY, toY)
+    }
+
+    private fun swipeWebView(x: Float, fromY: Float, toY: Float) {
+        val t0 = SystemClock.uptimeMillis()
+        val steps = 10
+        val durationMs = 180L
+        val handler = Handler(Looper.getMainLooper())
+
+        obtainTouch(t0, t0, MotionEvent.ACTION_DOWN, x, fromY).also {
+            webView.dispatchTouchEvent(it); it.recycle()
+        }
+        for (i in 1..steps) {
+            val frac = i / steps.toFloat()
+            val y = fromY + (toY - fromY) * frac
+            val dt = (durationMs * frac).toLong()
+            handler.postDelayed({
+                val action = if (i == steps) MotionEvent.ACTION_UP else MotionEvent.ACTION_MOVE
+                obtainTouch(t0, t0 + dt, action, x, y).also {
+                    webView.dispatchTouchEvent(it); it.recycle()
+                }
+            }, dt)
         }
     }
 
@@ -501,5 +559,11 @@ class MainActivity : AppCompatActivity() {
         (webView.parent as? android.view.ViewGroup)?.removeView(webView)
         webView.destroy()
         super.onDestroy()
+    }
+
+    companion object {
+        // The pointer drawable's tip is near its top-left; nudge taps to it.
+        private const val TIP_OFFSET_X = 8f
+        private const val TIP_OFFSET_Y = 6f
     }
 }
