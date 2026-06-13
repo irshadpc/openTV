@@ -20,9 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.webkit.WebSettingsCompat
-import androidx.webkit.WebViewFeature
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import com.opentv.app.databinding.ActivityMainBinding
 import com.opentv.app.player.ChannelsActivity
 import com.opentv.app.util.ExternalAppLauncher
@@ -109,13 +107,9 @@ class MainActivity : AppCompatActivity() {
             mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
         }
 
-        // Force a dark WebView surface where supported (matches the dark theme).
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
-            WebSettingsCompat.setAlgorithmicDarkeningAllowed(webView.settings, true)
-        }
-
-        // Hardware-accelerated rendering for smooth video.
-        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        // Let the system manage WebView layers (the manifest already enables
+        // hardware acceleration). Forcing a single full-screen hardware layer
+        // allocates a large GPU buffer that hurts low-power TVs, so we don't.
         webView.setBackgroundColor(0xFF000000.toInt())
         // Accept synthesized touch/clicks from the virtual pointer.
         webView.isFocusable = true
@@ -509,7 +503,7 @@ class MainActivity : AppCompatActivity() {
         }
         entries += getString(R.string.action_exit) to { finish() }
 
-        MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_OpenTV_Dialog)
+        AlertDialog.Builder(this, R.style.ThemeOverlay_OpenTV_Dialog)
             .setTitle(R.string.settings_title)
             .setItems(entries.map { it.first }.toTypedArray()) { _, which ->
                 entries[which].second.invoke()

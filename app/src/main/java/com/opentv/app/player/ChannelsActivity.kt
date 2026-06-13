@@ -3,6 +3,7 @@ package com.opentv.app.player
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.opentv.app.AppConfig
 import com.opentv.app.R
 
@@ -99,7 +99,7 @@ class ChannelsActivity : AppCompatActivity() {
     /** Lets the user pick which configured playlist to load. */
     private fun showSourcePicker() {
         val names = AppConfig.PLAYLIST_SOURCES.map { it.name }.toTypedArray()
-        MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_OpenTV_Dialog)
+        AlertDialog.Builder(this, R.style.ThemeOverlay_OpenTV_Dialog)
             .setTitle(R.string.channels_pick_source)
             .setSingleChoiceItems(names, sourceIndex) { dialog, which ->
                 dialog.dismiss()

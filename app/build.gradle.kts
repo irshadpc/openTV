@@ -35,8 +35,12 @@ android {
         // Android TV 9 (API 28) and above, as required.
         minSdk = 28
         targetSdk = 34
-        versionCode = 6
-        versionName = "1.4.2"
+        versionCode = 7
+        versionName = "1.5.0"
+
+        // Ship only English resources — drops unused locale strings that
+        // libraries bundle, shrinking the APK / resources table.
+        resourceConfigurations += listOf("en")
     }
 
     signingConfigs {
@@ -84,19 +88,11 @@ android {
 }
 
 dependencies {
-    // Core AndroidX / Kotlin.
+    // Core AndroidX / Kotlin. AppCompat covers theming + AlertDialog, so the
+    // heavier Material Components and Leanback libraries are intentionally NOT
+    // included (keeps the APK small and rendering light on low-power TVs).
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
-
-    // Material components for the dark theme and settings dialog.
-    implementation("com.google.android.material:material:1.12.0")
-
-    // Leanback: makes the app a first-class Android TV / Google TV citizen.
-    implementation("androidx.leanback:leanback:1.0.0")
-
-    // WebKit support library: modern WebView APIs (dark mode, safe browsing)
-    // back-ported to older Android TV versions.
-    implementation("androidx.webkit:webkit:1.11.0")
 
     // Lifecycle helpers used by the connectivity monitor.
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")

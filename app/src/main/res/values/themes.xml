@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base app theme: dark, full-screen, no action bar. -->
-    <style name="Theme.OpenTV" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- Base app theme: dark, full-screen, no action bar. AppCompat-based so we
+         don't pull in the heavier Material Components library. -->
+    <style name="Theme.OpenTV" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/background</item>
         <item name="colorPrimary">@color/accent</item>
-        <item name="colorSecondary">@color/accent</item>
+        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
@@ -18,11 +20,12 @@
         <item name="postSplashScreenTheme">@style/Theme.OpenTV</item>
     </style>
 
-    <!-- Dark dialog used for the settings panel. -->
-    <style name="ThemeOverlay.OpenTV.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="colorSurface">@color/surface</item>
-        <item name="colorOnSurface">@color/text_primary</item>
+    <!-- Dark dialog used for the settings / source panels. -->
+    <style name="ThemeOverlay.OpenTV.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/surface</item>
         <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 
 </resources>
