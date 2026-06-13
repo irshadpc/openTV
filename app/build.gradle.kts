@@ -35,8 +35,8 @@ android {
         // Android TV 9 (API 28) and above, as required.
         minSdk = 28
         targetSdk = 34
-        versionCode = 10
-        versionName = "1.5.3"
+        versionCode = 11
+        versionName = "1.6.0"
 
         // Ship only English resources — drops unused locale strings that
         // libraries bundle, shrinking the APK / resources table.
