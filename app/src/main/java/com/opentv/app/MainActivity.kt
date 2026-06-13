@@ -238,15 +238,18 @@ class MainActivity : AppCompatActivity() {
         val w = binding.root.width.toFloat()
         val h = binding.root.height.toFloat()
 
+        // At an edge a further press scrolls the content via a real swipe
+        // gesture (works for inner vertical AND horizontal scroll containers,
+        // e.g. carousels/rows).
         when (keyCode) {
-            KeyEvent.KEYCODE_DPAD_LEFT -> cursorX -= step
-            KeyEvent.KEYCODE_DPAD_RIGHT -> cursorX += step
-            // At the top/bottom edge a further press scrolls the page via a real
-            // swipe gesture (works for inner scroll containers too).
+            KeyEvent.KEYCODE_DPAD_LEFT ->
+                if (cursorX - step <= 0f) scrollHorizontal(towardLeft = true) else cursorX -= step
+            KeyEvent.KEYCODE_DPAD_RIGHT ->
+                if (cursorX + step >= w) scrollHorizontal(towardLeft = false) else cursorX += step
             KeyEvent.KEYCODE_DPAD_UP ->
-                if (cursorY - step <= 0f) scrollPage(towardTop = true) else cursorY -= step
+                if (cursorY - step <= 0f) scrollVertical(towardTop = true) else cursorY -= step
             KeyEvent.KEYCODE_DPAD_DOWN ->
-                if (cursorY + step >= h) scrollPage(towardTop = false) else cursorY += step
+                if (cursorY + step >= h) scrollVertical(towardTop = false) else cursorY += step
         }
         cursorX = cursorX.coerceIn(0f, w)
         cursorY = cursorY.coerceIn(0f, h)
@@ -319,27 +322,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Scrolls the content under the pointer with a real swipe drag. */
-    private fun scrollPage(towardTop: Boolean) {
+    /** Vertical scroll of the content under the pointer (real swipe drag). */
+    private fun scrollVertical(towardTop: Boolean) {
         val h = binding.root.height.toFloat()
         val x = cursorX.coerceIn(40f, binding.root.width - 40f)
         // To reveal content ABOVE, the finger swipes DOWN, and vice-versa.
         val fromY = if (towardTop) h * 0.30f else h * 0.70f
         val toY = if (towardTop) h * 0.70f else h * 0.30f
-        swipeWebView(x, fromY, toY)
+        swipeWebView(x, fromY, x, toY)
     }
 
-    private fun swipeWebView(x: Float, fromY: Float, toY: Float) {
+    /** Horizontal scroll of the row/carousel under the pointer. */
+    private fun scrollHorizontal(towardLeft: Boolean) {
+        val w = binding.root.width.toFloat()
+        val y = cursorY.coerceIn(40f, binding.root.height - 40f)
+        // To reveal content to the LEFT, the finger swipes RIGHT, and vice-versa.
+        val fromX = if (towardLeft) w * 0.30f else w * 0.70f
+        val toX = if (towardLeft) w * 0.70f else w * 0.30f
+        swipeWebView(fromX, y, toX, y)
+    }
+
+    /** Dispatches a timed finger drag from (fromX,fromY) to (toX,toY). */
+    private fun swipeWebView(fromX: Float, fromY: Float, toX: Float, toY: Float) {
         val t0 = SystemClock.uptimeMillis()
         val steps = 10
         val durationMs = 180L
         val handler = Handler(Looper.getMainLooper())
 
-        obtainTouch(t0, t0, MotionEvent.ACTION_DOWN, x, fromY).also {
+        obtainTouch(t0, t0, MotionEvent.ACTION_DOWN, fromX, fromY).also {
             webView.dispatchTouchEvent(it); it.recycle()
         }
         for (i in 1..steps) {
             val frac = i / steps.toFloat()
+            val x = fromX + (toX - fromX) * frac
             val y = fromY + (toY - fromY) * frac
             val dt = (durationMs * frac).toLong()
             handler.postDelayed({
