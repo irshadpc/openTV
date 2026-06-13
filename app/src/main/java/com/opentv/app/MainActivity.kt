@@ -54,9 +54,13 @@ class MainActivity : AppCompatActivity() {
     private var cursorX = 0f
     private var cursorY = 0f
     private val cursorBaseStep = 60f      // px per key press (fast)
-    private val cursorEdgeScroll = 260f   // page scroll when pointer hits an edge
-    private val cursorIdleMs = 3000L      // hide the pointer after this idle time
-    private val hideCursorRunnable = Runnable { binding.cursorView.visibility = View.GONE }
+    private val cursorIdleMs = 3500L      // hide the pointer + control bar after idle
+    // Hides BOTH the pointer and the on-screen control bar so they don't block
+    // the view when you're just watching.
+    private val hideUiRunnable = Runnable {
+        binding.cursorView.visibility = View.GONE
+        binding.controlBar.visibility = View.GONE
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,12 +150,12 @@ class MainActivity : AppCompatActivity() {
             onEnterFullScreen = {
                 // During video playback hide the pointer + control bar so they
                 // don't sit on top of the picture.
+                binding.root.removeCallbacks(hideUiRunnable)
                 binding.controlBar.visibility = View.GONE
                 binding.cursorView.visibility = View.GONE
                 hideSystemUi()
             },
             onExitFullScreen = {
-                binding.controlBar.visibility = View.VISIBLE
                 applyCursorVisibility()
                 hideSystemUi()
             }
@@ -255,16 +259,17 @@ class MainActivity : AppCompatActivity() {
         binding.cursorView.y = cursorY
     }
 
-    /** Make the pointer visible at its current spot and (re)start the idle timer. */
+    /** Reveal the pointer + control bar at the current spot; restart idle timer. */
     private fun showCursor() {
         updateCursorPosition()
         binding.cursorView.visibility = View.VISIBLE
+        binding.controlBar.visibility = View.VISIBLE
         scheduleCursorHide()
     }
 
     private fun scheduleCursorHide() {
-        binding.cursorView.removeCallbacks(hideCursorRunnable)
-        binding.cursorView.postDelayed(hideCursorRunnable, cursorIdleMs)
+        binding.root.removeCallbacks(hideUiRunnable)
+        binding.root.postDelayed(hideUiRunnable, cursorIdleMs)
     }
 
     /** "Clicks" at the pointer: an on-screen control if hit, else the WebView. */
@@ -356,15 +361,23 @@ class MainActivity : AppCompatActivity() {
         ).show()
     }
 
+    /**
+     * Sets the pointer / control-bar visibility for the current state:
+     *  - offline or fullscreen video → everything hidden,
+     *  - cursor mode → start hidden; they appear on the next remote press and
+     *    auto-hide when idle (so nothing blocks the view while watching),
+     *  - focus mode (pointer off) → keep the control bar visible so it can be
+     *    reached with normal D-pad focus.
+     */
     private fun applyCursorVisibility() {
-        if (cursorMode && !chromeClient.isInFullScreen() &&
-            binding.offlineLayout.visibility != View.VISIBLE
-        ) {
-            showCursor()   // briefly show, then auto-hide when idle
-        } else {
-            binding.cursorView.removeCallbacks(hideCursorRunnable)
-            binding.cursorView.visibility = View.GONE
-        }
+        binding.root.removeCallbacks(hideUiRunnable)
+        binding.cursorView.visibility = View.GONE
+
+        val blocked = chromeClient.isInFullScreen() ||
+            binding.offlineLayout.visibility == View.VISIBLE
+
+        binding.controlBar.visibility =
+            if (!blocked && !cursorMode) View.VISIBLE else View.GONE
     }
 
     private fun showSpinner(show: Boolean) {
