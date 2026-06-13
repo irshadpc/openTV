@@ -52,8 +52,10 @@ class MainActivity : AppCompatActivity() {
     private var cursorMode = true
     private var cursorX = 0f
     private var cursorY = 0f
-    private val cursorBaseStep = 26f      // px per key press
-    private val cursorEdgeScroll = 220f   // page scroll when pointer hits an edge
+    private val cursorBaseStep = 60f      // px per key press (fast)
+    private val cursorEdgeScroll = 260f   // page scroll when pointer hits an edge
+    private val cursorIdleMs = 3000L      // hide the pointer after this idle time
+    private val hideCursorRunnable = Runnable { binding.cursorView.visibility = View.GONE }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -200,13 +202,25 @@ class MainActivity : AppCompatActivity() {
                 KeyEvent.KEYCODE_DPAD_RIGHT,
                 KeyEvent.KEYCODE_DPAD_UP,
                 KeyEvent.KEYCODE_DPAD_DOWN -> {
-                    moveCursor(event.keyCode, event.repeatCount)
+                    // If the pointer was hidden (idle), the first press just
+                    // reveals it; otherwise it moves.
+                    if (binding.cursorView.visibility == View.VISIBLE) {
+                        moveCursor(event.keyCode, event.repeatCount)
+                    } else {
+                        showCursor()
+                    }
                     return true
                 }
                 KeyEvent.KEYCODE_DPAD_CENTER,
                 KeyEvent.KEYCODE_ENTER,
                 KeyEvent.KEYCODE_BUTTON_A -> {
-                    clickAtCursor()
+                    // Don't click blind: if hidden, reveal first.
+                    if (binding.cursorView.visibility == View.VISIBLE) {
+                        clickAtCursor()
+                        scheduleCursorHide()
+                    } else {
+                        showCursor()
+                    }
                     return true
                 }
             }
@@ -234,16 +248,25 @@ class MainActivity : AppCompatActivity() {
         }
         cursorX = cursorX.coerceIn(0f, w)
         cursorY = cursorY.coerceIn(0f, h)
-        updateCursorPosition()
+        showCursor()
     }
 
     private fun updateCursorPosition() {
-        binding.cursorView.apply {
-            // Anchor the pointer's tip (top-left of the arrow) at the position.
-            x = cursorX
-            y = cursorY
-            if (visibility != View.VISIBLE) visibility = View.VISIBLE
-        }
+        // Anchor the pointer's tip (top-left of the arrow) at the position.
+        binding.cursorView.x = cursorX
+        binding.cursorView.y = cursorY
+    }
+
+    /** Make the pointer visible at its current spot and (re)start the idle timer. */
+    private fun showCursor() {
+        updateCursorPosition()
+        binding.cursorView.visibility = View.VISIBLE
+        scheduleCursorHide()
+    }
+
+    private fun scheduleCursorHide() {
+        binding.cursorView.removeCallbacks(hideCursorRunnable)
+        binding.cursorView.postDelayed(hideCursorRunnable, cursorIdleMs)
     }
 
     /** "Clicks" at the pointer: an on-screen control if hit, else the WebView. */
@@ -285,8 +308,9 @@ class MainActivity : AppCompatActivity() {
         if (cursorMode && !chromeClient.isInFullScreen() &&
             binding.offlineLayout.visibility != View.VISIBLE
         ) {
-            updateCursorPosition()
+            showCursor()   // briefly show, then auto-hide when idle
         } else {
+            binding.cursorView.removeCallbacks(hideCursorRunnable)
             binding.cursorView.visibility = View.GONE
         }
     }
