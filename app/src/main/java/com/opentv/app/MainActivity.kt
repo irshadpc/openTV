@@ -502,6 +502,11 @@ class MainActivity : AppCompatActivity() {
         // from AppConfig.EXTERNAL_APPS so adding more is a one-line change.
         val entries = mutableListOf<Pair<String, () -> Unit>>()
 
+        // Web shortcuts (e.g. Tubi) open inside our WebView so the user can log in.
+        AppConfig.WEB_SHORTCUTS.forEach { shortcut ->
+            entries += shortcut.label to { openWebShortcut(shortcut.url) }
+        }
+        // App tiles (e.g. Fox Sports) hand off to the installed official app.
         AppConfig.EXTERNAL_APPS.forEach { app ->
             entries += app.label to { openExternalApp(app) }
         }
@@ -522,6 +527,12 @@ class MainActivity : AppCompatActivity() {
                 entries[which].second.invoke()
             }
             .show()
+    }
+
+    /** Opens an official site (e.g. Tubi login) inside the in-app WebView. */
+    private fun openWebShortcut(url: String) {
+        showOffline(false)
+        loadUrlOrOffline(url)
     }
 
     /**

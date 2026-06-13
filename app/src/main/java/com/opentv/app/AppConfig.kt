@@ -94,18 +94,29 @@ object AppConfig {
     )
 
     // -----------------------------------------------------------------------
+    // Web shortcuts — open an official site INSIDE the app's WebView (so the
+    // user can sign in; cookies/DOM storage persist the session across launches).
+    //
+    //   - Tubi: free, ad-supported, Fox-owned service. Opens its login page so
+    //           the user can sign in and watch within the app.
+    // -----------------------------------------------------------------------
+    data class WebShortcut(val label: String, val url: String)
+
+    val WEB_SHORTCUTS: List<WebShortcut> = listOf(
+        WebShortcut("Tubi (Login)", "https://tubitv.com/login")
+    )
+
+    // -----------------------------------------------------------------------
     // External streaming apps (official, licensed services).
     //
     // The app does NOT restream their content. It hands off to the installed
     // official app (which handles login/ads/DRM natively), and only falls back
     // to the Play Store / website if that app isn't installed.
     //
-    //   - Tubi: free, ad-supported, Fox-owned; carries Fox's free World Cup
-    //           coverage in the US (no login required).
     //   - Fox Sports: official US World Cup rights-holder (TV-provider login).
     //
     // Verify a package on your device with:
-    //   adb shell pm list packages | grep -iE "tubi|fox"
+    //   adb shell pm list packages | grep -i fox
     // and update [packageName] if it differs.
     // -----------------------------------------------------------------------
     data class ExternalApp(
@@ -116,12 +127,6 @@ object AppConfig {
     )
 
     val EXTERNAL_APPS: List<ExternalApp> = listOf(
-        ExternalApp(
-            label = "Tubi",
-            packageName = "com.tubitv",
-            webUrl = "https://tubitv.com",
-            playStoreUrl = "https://play.google.com/store/apps/details?id=com.tubitv"
-        ),
         ExternalApp(
             label = "Fox Sports",
             packageName = "com.foxsports.videogo",
