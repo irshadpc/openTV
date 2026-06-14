@@ -115,6 +115,8 @@ class MainActivity : AppCompatActivity() {
         // hardware acceleration). Forcing a single full-screen hardware layer
         // allocates a large GPU buffer that hurts low-power TVs, so we don't.
         webView.setBackgroundColor(0xFF000000.toInt())
+        // Start transparent so the first page can fade in smoothly.
+        webView.alpha = 0f
         // Accept synthesized touch/clicks from the virtual pointer.
         webView.isFocusable = true
         webView.isFocusableInTouchMode = true
@@ -130,6 +132,10 @@ class MainActivity : AppCompatActivity() {
             onPageLoadStarted = { showSpinner(true) },
             onPageLoadFinished = { url ->
                 showSpinner(false)
+                // Smoothly fade the content in the first time it loads.
+                if (webView.alpha < 1f) {
+                    webView.animate().alpha(1f).setDuration(360).start()
+                }
                 hasLoadedOnce = true
                 rememberLastUrl(url)
             },

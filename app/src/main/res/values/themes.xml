@@ -20,12 +20,18 @@
         <item name="postSplashScreenTheme">@style/Theme.OpenTV</item>
     </style>
 
-    <!-- Dark dialog used for the settings / source panels. -->
+    <!-- Dark, rounded dialog used for the settings / source panels. -->
     <style name="ThemeOverlay.OpenTV.Dialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:background">@color/surface</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:windowTitleStyle">@style/OpenTV.DialogTitle</item>
+    </style>
+
+    <style name="OpenTV.DialogTitle" parent="@android:style/TextAppearance.Material.DialogWindowTitle">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

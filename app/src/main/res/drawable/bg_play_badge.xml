@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gradient circular badge with a white play glyph, used on each channel card. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="45"
+                android:startColor="@color/brand_start"
+                android:endColor="@color/brand_end"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_play"
+        android:gravity="center"
+        android:width="22dp"
+        android:height="22dp" />
+</layer-list>

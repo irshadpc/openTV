@@ -4,33 +4,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:paddingHorizontal="48dp"
+    android:background="@drawable/bg_splash"
+    android:paddingHorizontal="52dp"
     android:paddingVertical="40dp">
+
+    <!-- Accent bar beside the title. -->
+    <View
+        android:id="@+id/titleAccent"
+        android:layout_width="6dp"
+        android:layout_height="34dp"
+        android:background="@drawable/bg_accent_bar"
+        app:layout_constraintTop_toTopOf="@id/channelsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/channelsTitle"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Screen title -->
     <TextView
         android:id="@+id/channelsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="@string/channels_title"
         android:textColor="@color/text_primary"
-        android:textSize="32sp"
+        android:textSize="34sp"
         android:textStyle="bold"
+        android:letterSpacing="0.01"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/sourceButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/titleAccent" />
 
     <!-- Source picker (focusable). Switches between configured playlists. -->
     <Button
         android:id="@+id/sourceButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="220dp"
-        android:padding="14dp"
+        android:minWidth="210dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="14dp"
         android:textColor="@color/text_primary"
         android:textSize="16sp"
-        android:background="@drawable/focus_ring_button"
+        android:textAllCaps="false"
+        android:background="@drawable/bg_pill_button"
         android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -38,15 +53,19 @@
     <!-- World Cup keyword filter toggle (focusable), left of the source button. -->
     <Button
         android:id="@+id/filterButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:padding="14dp"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="14dp"
         android:textColor="@color/text_primary"
         android:textSize="16sp"
-        android:background="@drawable/focus_ring_button"
+        android:textAllCaps="false"
+        android:background="@drawable/bg_pill_button"
         android:focusable="true"
         app:layout_constraintTop_toTopOf="@id/sourceButton"
+        app:layout_constraintBottom_toBottomOf="@id/sourceButton"
         app:layout_constraintEnd_toStartOf="@id/sourceButton" />
 
     <!-- Channel list -->
@@ -54,8 +73,9 @@
         android:id="@+id/channelList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:clipToPadding="false"
+        android:paddingHorizontal="4dp"
         android:focusable="true"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/sourceButton"

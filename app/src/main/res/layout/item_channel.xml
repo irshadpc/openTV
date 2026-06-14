@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Large, D-pad-focusable channel row. The focus_ring_button background gives
-     a high-contrast ring when focused (visible from across the room). -->
+<!-- Channel card: gradient play badge + name/group. Rounded card with an accent
+     border and a subtle zoom when focused (set via stateListAnimator). -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_marginBottom="14dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:padding="20dp"
-    android:background="@drawable/focus_ring_button"
+    android:padding="16dp"
+    android:background="@drawable/bg_channel_card"
+    android:stateListAnimator="@animator/card_focus"
     android:focusable="true"
     android:clickable="true">
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_logo"
-        android:contentDescription="@string/channels_title" />
+    <View
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/bg_play_badge" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -39,8 +39,10 @@
             android:id="@+id/channelGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:textColor="@color/text_secondary"
-            android:textSize="15sp"
+            android:textSize="14sp"
+            android:letterSpacing="0.04"
             android:visibility="gone" />
 
     </LinearLayout>
