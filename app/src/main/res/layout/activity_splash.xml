@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Branded splash shown during cold start. Centered logo on the dark theme. -->
+<!-- Branded, animated splash. Views start hidden/scaled and are animated in by
+     SplashActivity for a polished "nice loading" feel. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_splash">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,20 +14,56 @@
         android:gravity="center">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:id="@+id/splashLogo"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:src="@drawable/ic_logo"
+            android:alpha="0"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
             android:contentDescription="@string/app_name" />
 
         <TextView
+            android:id="@+id/splashTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="22dp"
             android:text="@string/app_name"
             android:textColor="@color/text_primary"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:textSize="38sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.02"
+            android:alpha="0" />
 
+        <TextView
+            android:id="@+id/splashTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/app_tagline"
+            android:textColor="@color/accent"
+            android:textSize="16sp"
+            android:letterSpacing="0.18"
+            android:alpha="0" />
+
+    </LinearLayout>
+
+    <!-- 3-dot loader near the bottom. -->
+    <LinearLayout
+        android:id="@+id/splashLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="56dp"
+        android:orientation="horizontal"
+        android:alpha="0">
+
+        <View android:id="@+id/dot1" android:layout_width="12dp" android:layout_height="12dp"
+            android:layout_marginHorizontal="7dp" android:background="@drawable/dot" />
+        <View android:id="@+id/dot2" android:layout_width="12dp" android:layout_height="12dp"
+            android:layout_marginHorizontal="7dp" android:background="@drawable/dot" />
+        <View android:id="@+id/dot3" android:layout_width="12dp" android:layout_height="12dp"
+            android:layout_marginHorizontal="7dp" android:background="@drawable/dot" />
     </LinearLayout>
 
 </FrameLayout>

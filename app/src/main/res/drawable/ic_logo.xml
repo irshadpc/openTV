@@ -1,60 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Custom "Open TV World Cup" logo.
-     A golden World-Cup style trophy with a soccer ball, framed by a stylized
-     TV / play motif in the brand accent colour. Drawn as a vector so it stays
-     crisp at every density on 1080p and 4K screens. -->
+<!-- "Open TV" emblem: a glossy rounded-square with a brand gradient and a white
+     play triangle. Modern, fun, instantly readable as a streaming app. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Accent rounded "screen" backplate -->
-    <path
-        android:fillColor="#00E0A4"
-        android:pathData="M18,16 h72 a10,10 0 0 1 10,10 v56 a10,10 0 0 1 -10,10 h-72 a10,10 0 0 1 -10,-10 v-56 a10,10 0 0 1 10,-10 z" />
-    <!-- Inner dark screen -->
-    <path
-        android:fillColor="#0D0D0F"
-        android:pathData="M16,24 h76 a4,4 0 0 1 4,4 v52 a4,4 0 0 1 -4,4 h-76 a4,4 0 0 1 -4,-4 v-52 a4,4 0 0 1 4,-4 z" />
+    <!-- Rounded-square body with a diagonal brand gradient. -->
+    <path android:pathData="M30,14 h48 a16,16 0 0 1 16,16 v48 a16,16 0 0 1 -16,16 h-48 a16,16 0 0 1 -16,-16 v-48 a16,16 0 0 1 16,-16 z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="14" android:startY="14"
+                android:endX="94" android:endY="94"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#00E0A4" />
+                <item android:offset="0.55" android:color="#13C7D6" />
+                <item android:offset="1.0" android:color="#3B82F6" />
+            </gradient>
+        </aapt:attr>
+    </path>
 
-    <!-- ===== Trophy ===== -->
-    <!-- Cup bowl -->
+    <!-- Soft top highlight for a glossy feel. -->
     <path
-        android:fillColor="#FFC94D"
-        android:pathData="M42,32 h24 v10 a12,12 0 0 1 -24,0 z" />
-    <!-- Left handle -->
-    <path
-        android:fillColor="#FFC94D"
-        android:pathData="M42,34 a8,8 0 0 0 -8,8 a8,8 0 0 0 8,8 v-5 a3,3 0 0 1 0,-6 z" />
-    <!-- Right handle -->
-    <path
-        android:fillColor="#FFC94D"
-        android:pathData="M66,34 a8,8 0 0 1 8,8 a8,8 0 0 1 -8,8 v-5 a3,3 0 0 0 0,-6 z" />
-    <!-- Stem -->
-    <path
-        android:fillColor="#E8A92E"
-        android:pathData="M50,53 h8 v8 h-8 z" />
-    <!-- Base -->
-    <path
-        android:fillColor="#FFC94D"
-        android:pathData="M40,61 h28 v5 h-28 z" />
-    <path
-        android:fillColor="#E8A92E"
-        android:pathData="M44,66 h20 v4 h-20 z" />
+        android:pathData="M30,14 h48 a16,16 0 0 1 16,16 v10 H14 v-10 a16,16 0 0 1 16,-16 z"
+        android:fillAlpha="0.12"
+        android:fillColor="#FFFFFF" />
 
-    <!-- ===== Soccer ball on the cup ===== -->
+    <!-- White play triangle (rounded). -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M54,32 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0" />
-    <!-- Pentagon accents -->
-    <path
-        android:fillColor="#0D0D0F"
-        android:pathData="M54,28 l3,2.2 l-1.2,3.6 l-3.6,0 l-1.2,-3.6 z" />
-    <path
-        android:fillColor="#0D0D0F"
-        android:pathData="M48.5,31.5 l1.5,2 l-1.5,2 l-2,-1 z" />
-    <path
-        android:fillColor="#0D0D0F"
-        android:pathData="M59.5,31.5 l2,1 l-2,1 l-1.5,-2 z" />
+        android:pathData="M44,38 L74,54 a2,2 0 0 1 0,3.5 L44,73 a2,2 0 0 1 -3,-1.7 V39.7 a2,2 0 0 1 3,-1.7 z" />
 </vector>

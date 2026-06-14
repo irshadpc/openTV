@@ -61,35 +61,41 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:orientation="horizontal"
+        android:background="@drawable/bg_control_bar"
+        android:padding="8dp"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
             android:id="@+id/menuButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="10dp"
+            android:padding="13dp"
             android:src="@drawable/ic_menu"
-            android:background="@drawable/focus_ring_button"
+            android:background="@drawable/bg_icon_button"
             android:contentDescription="@string/settings_title"
             android:focusable="true" />
 
         <ImageButton
             android:id="@+id/cursorButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="10dp"
+            android:padding="13dp"
             android:src="@drawable/ic_pointer_toggle"
-            android:background="@drawable/focus_ring_button"
+            android:background="@drawable/bg_icon_button"
             android:contentDescription="@string/action_toggle_cursor"
             android:focusable="true" />
 
         <ImageButton
             android:id="@+id/refreshButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:padding="13dp"
             android:src="@drawable/ic_refresh"
-            android:background="@drawable/focus_ring_button"
+            android:background="@drawable/bg_icon_button"
             android:contentDescription="@string/action_refresh"
             android:focusable="true" />
 

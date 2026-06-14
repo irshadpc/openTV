@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive-icon background: full-bleed brand gradient. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path
-        android:fillColor="#0D0D0F"
-        android:pathData="M0,0 h108 v108 h-108 z" />
+    <path android:pathData="M0,0 h108 v108 h-108 z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0" android:startY="0"
+                android:endX="108" android:endY="108"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#00E0A4" />
+                <item android:offset="0.55" android:color="#13C7D6" />
+                <item android:offset="1.0" android:color="#3B82F6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- subtle radial glow top-left -->
+    <path android:pathData="M0,0 h108 v108 h-108 z" android:fillAlpha="0.10">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="34" android:centerY="32" android:gradientRadius="70"
+                android:type="radial">
+                <item android:offset="0.0" android:color="#FFFFFF" />
+                <item android:offset="1.0" android:color="#00FFFFFF" />
+            </gradient>
+        </aapt:attr>
+    </path>
 </vector>

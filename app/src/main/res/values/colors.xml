@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Dark theme palette. -->
-    <color name="background">#0D0D0F</color>
-    <color name="surface">#1A1A1F</color>
+    <color name="background">#0B0B12</color>
+    <color name="background_elev">#12121C</color>
+    <color name="surface">#1B1B27</color>
+    <color name="surface_translucent">#CC141420</color>
+
+    <!-- Brand gradient (teal -> cyan -> electric blue). -->
+    <color name="brand_start">#00E0A4</color>
+    <color name="brand_mid">#13C7D6</color>
+    <color name="brand_end">#3B82F6</color>
+
     <color name="accent">#00E0A4</color>          <!-- focus / progress accent -->
     <color name="accent_dark">#00B486</color>
     <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B0B0B8</color>
-    <color name="focus_stroke">#00E0A4</color>     <!-- large D-pad focus ring -->
+    <color name="text_secondary">#AEB0C0</color>
+    <color name="focus_stroke">#3BE7C4</color>     <!-- large D-pad focus ring -->
 </resources>
